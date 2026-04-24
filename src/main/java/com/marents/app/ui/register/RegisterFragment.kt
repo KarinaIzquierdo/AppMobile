@@ -93,7 +93,7 @@ class RegisterFragment : Fragment() {
             (activity as? Navigator.Provider)?.getNavigator()?.navigateToLogin()
         }
     }
-
+// comentario de prueba
     /**
      * Cambia la visibilidad de la contraseña
      * Usa InputType para alternar entre PASSWORD y VISIBLE
