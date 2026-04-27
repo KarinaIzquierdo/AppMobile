@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.marents.app.AppRoutes
+import com.marents.app.MainActivity
 import com.marents.app.Navigator
 import com.marents.app.databinding.FragmentWelcomeBinding
 
@@ -28,17 +30,17 @@ class WelcomeFragment : Fragment() {
 
         binding.btnIniciar.setOnClickListener {
             // Ir a Login
-            (activity as? Navigator.Provider)?.getNavigator()?.navigateToLogin()
+            (activity as? MainActivity)?.navigateToFragment(AppRoutes.LOGIN)
         }
 
         binding.btnRegistro.setOnClickListener {
             // Ir a Registro
-            (activity as? Navigator.Provider)?.getNavigator()?.navigateToRegister()
+            (activity as? MainActivity)?.navigateToFragment(AppRoutes.REGISTER)
         }
 
         binding.tvInvitado.setOnClickListener {
             // Ir a selección de categorías como invitado
-            (activity as? Navigator.Provider)?.getNavigator()?.navigateToCategories()
+            (activity as? MainActivity)?.navigateToFragment(AppRoutes.CATEGORIES)
         }
     }
 

@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.marents.app.AppRoutes
+import com.marents.app.MainActivity
 import com.marents.app.Navigator
 import com.marents.app.databinding.FragmentLoginBinding
 import kotlinx.coroutines.launch
@@ -37,7 +39,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        // Botón atrás - volver a Welcome
         binding.btnBack.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -45,25 +46,20 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString()
-
             viewModel.login(email, password)
         }
 
-        // Toggle mostrar/ocultar contraseña
         binding.btnTogglePassword.setOnClickListener {
             val isPasswordVisible = binding.etPassword.inputType ==
                 (android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
 
             if (isPasswordVisible) {
-                // Ocultar contraseña
                 binding.etPassword.inputType =
                     android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
             } else {
-                // Mostrar contraseña
                 binding.etPassword.inputType =
                     android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
             }
-            // Mantener cursor al final
             binding.etPassword.setSelection(binding.etPassword.text.length)
         }
     }
@@ -91,8 +87,15 @@ class LoginFragment : Fragment() {
                     viewModel.loginSuccess.collect { success ->
                         if (success) {
                             Toast.makeText(requireContext(), "Login exitoso", Toast.LENGTH_SHORT).show()
-                            // Navegar a selección de categorías antes del Home
-                            (activity as? Navigator.Provider)?.getNavigator()?.navigateToCategories()
+                            
+                            // Verificar el rol del usuario y redirigir accordingly
+                            val user = viewModel.user.value
+                            if (user?.role == "admin") {
+                                (activity as? MainActivity)?.navigateToFragment(AppRoutes.ADMIN)
+                            } else {
+                                // Navegar a selección de categorías para usuarios normales
+                                (activity as? MainActivity)?.navigateToFragment(AppRoutes.CATEGORIES)
+                            }
                             viewModel.resetLoginSuccess()
                         }
                     }

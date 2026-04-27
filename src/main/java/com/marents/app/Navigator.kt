@@ -19,16 +19,23 @@ object AppRoutes {
     const val REGISTER = "register"
     const val CATEGORIES = "categories"
     const val HOME = "home"
+    const val ADMIN = "admin"
+    const val USERS = "users"
     const val PRODUCTOS = "productos"
     const val DETALLE_PRODUCTO = "detalle_producto/{productoId}"
 }
 
 class Navigator {
-    private val _commands = MutableStateFlow<NavigationCommand?>(null)
-    val commands: StateFlow<NavigationCommand?> = _commands.asStateFlow()
-
+    private var _command: NavigationCommand? = null
+    
+    fun getCommand(): NavigationCommand? {
+        val cmd = _command
+        _command = null
+        return cmd
+    }
+    
     fun navigate(command: NavigationCommand) {
-        _commands.value = command
+        _command = command
     }
 
     fun navigateToWelcome() = navigate(NavigationCommand.To(AppRoutes.WELCOME))
@@ -36,6 +43,8 @@ class Navigator {
     fun navigateToRegister() = navigate(NavigationCommand.To(AppRoutes.REGISTER))
     fun navigateToCategories() = navigate(NavigationCommand.To(AppRoutes.CATEGORIES))
     fun navigateToHome() = navigate(NavigationCommand.To(AppRoutes.HOME))
+    fun navigateToAdmin() = navigate(NavigationCommand.To(AppRoutes.ADMIN))
+    fun navigateToUsers() = navigate(NavigationCommand.To(AppRoutes.USERS))
     fun navigateToProductos() = navigate(NavigationCommand.To(AppRoutes.PRODUCTOS))
     fun navigateToDetalleProducto(productoId: Int) {
         val route = "detalle_producto/$productoId"

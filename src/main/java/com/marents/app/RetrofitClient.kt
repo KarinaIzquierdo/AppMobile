@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 object RetrofitClient {
 
     private val BASE_URL: String
-        get() = "http://10.0.2.2:8000/api/"
+        get() = "http://10.6.241.148:8000/api/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

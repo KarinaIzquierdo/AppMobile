@@ -21,8 +21,10 @@ data class LoginResponse(
 data class User(
     @SerializedName("id")
     val id: Int? = null,
-    @SerializedName("name")
-    val name: String? = null,
+    @SerializedName("nombres")
+    val nombres: String? = null,
+    @SerializedName("apellidos")
+    val apellidos: String? = null,
     @SerializedName("email")
     val email: String? = null,
     @SerializedName("rol")
